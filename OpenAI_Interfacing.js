@@ -41,10 +41,15 @@ async function transcribeAudio_openai(file_dir) {
   }
 }
 
-// JUST A DEMO, DO NOT PUT YOUR KEY HERE
+// DO NOT PUT API KEY HERE
 // THIS REPO IS PUBLIC
-// USE GITIGNORE
 const openaiApiKey = 'YOUR_API_KEY'; // Replace with your actual OpenAI API key
+
+const fs = require('fs');
+// Read the API key from the file
+const apiKey = fs.readFileSync('secret-api-key.txt', 'utf8').trim();
+
+
 userMessage = [
   {
     role: "system", content: "" 
