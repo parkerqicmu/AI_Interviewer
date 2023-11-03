@@ -1,8 +1,14 @@
 import openai
 
-# Read the API key from the "secret-api-key.txt" file
+# Open the "secret-api-key.txt" file and read the API key line
 with open("secret-api-key.txt", "r") as file:
-    api_key = file.read().strip()
+    lines = file.readlines()
+    api_key = None
+
+    for i in range(len(lines) - 1):
+        if lines[i].strip() == "OpenAI_key":
+            api_key = lines[i + 1].strip()
+            break
 
 # Set the API key
 openai.api_key = api_key

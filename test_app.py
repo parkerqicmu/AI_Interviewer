@@ -4,11 +4,23 @@ import json
 
 app = Flask(__name__)
 
+# Open the "secret-api-key.txt" file and read the API keys
+with open("secret-api-key.txt", "r") as file:
+    lines = file.readlines()
+    google_oauth_client_secret = None
+    flask_secret = None
+    
+    google_oauth_index = lines.index("Google_OAuth_Client_Secret\n")
+    flask_secret_index = lines.index("Flask_Secret\n")
+    
+    google_oauth_client_secret = lines[google_oauth_index + 1].strip()
+    flask_secret = lines[flask_secret_index + 1].strip()
+
 appConf = {
 	"OAUTH2_CLIENT_ID": "1052692314440-1964crjte1jbd1uihhl9bjunnuah82mj.apps.googleusercontent.com",
-	"OAUTH2_CLIENT_SECRET": "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",
+	"OAUTH2_CLIENT_SECRET": google_oauth_client_secret,
 	"OAUTH2_META_URL": "https://accounts.google.com/.well-known/openid-configuration",
-	"FLASK_SECRET": "f0411eb4ccd70d6a86ca8db0"
+	"FLASK_SECRET": flask_secret
 }
 
 oauth = OAuth(app)
