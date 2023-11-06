@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 upload_blueprint = Blueprint("upload", __name__)
 
 # Define the folder where uploaded files will be stored
-UPLOAD_FOLDER = 'pdf_uploads'
+UPLOAD_FOLDER = 'file_uploads'
 
 # Specify allowed file extensions
 ALLOWED_EXTENSIONS = {'pdf', 'txt', 'doc', 'docx'}
@@ -30,7 +30,7 @@ def upload_file():
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        file.save(os.path.join(UPLOAD_FOLDER, filename))
         return 'File uploaded successfully.'
 
     return 'Invalid file format. Allowed formats are: ' + ', '.join(ALLOWED_EXTENSIONS)
