@@ -32,8 +32,7 @@ oauth.register(
     client_kwargs={"scope": "openid profile email"},
 )
 
-'''# Register the Blueprint
-from main_routes import main_blueprint'''
+# Register the Blueprint
 from upload_routes import upload_blueprint
 
 UPLOAD_FOLDER = 'pdf_uploads'
