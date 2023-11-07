@@ -1,4 +1,4 @@
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint, render_template
 import pymongo
 
 job_description_blueprint = Blueprint("job_description", __name__)
@@ -17,7 +17,7 @@ def update_job_description():
         return jsonify({'message': 'Job description updated successfully'}), 200
 
     elif request.method == 'GET':
-        return "TEST for upload job description"
+        return render_template('job_description_form.html')
 
     # return a success response
     return jsonify({'message': 'Job description updated successfully'}), 200
