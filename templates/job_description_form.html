@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Description Form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <form id="jobDescriptionForm">
+        <label for="company_name">Company Name:</label><br>
+        <input type="text" id="company_name" name="company_name"><br>
+        <label for="company_description">Company Description:</label><br>
+        <input type="text" id="company_description" name="company_description"><br>
+        <label for="position_name">Position Name:</label><br>
+        <input type="text" id="position_name" name="position_name"><br>
+        <label for="position_responsibility">Position Responsibility:</label><br>
+        <input type="text" id="position_responsibility" name="position_responsibility"><br>
+        <label for="position_requirements">Position Requirements:</label><br>
+        <input type="text" id="position_requirements" name="position_requirements"><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        $("#jobDescriptionForm").submit(function(event) {
+            event.preventDefault();  // prevent the form from submitting normally
+
+            var formData = {
+                'company_name': $('#company_name').val(),
+                'company_description': $('#company_description').val(),
+                'position_name': $('#position_name').val(),
+                'position_responsibility': $('#position_responsibility').val(),
+                'position_requirements': $('#position_requirements').val()
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/job_description',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function(data) {
+                    alert('Data sent successfully');
+                },
+                error: function() {
+                    alert('An error occurred');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
