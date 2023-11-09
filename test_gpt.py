@@ -1,4 +1,5 @@
 import openai
+from queue import Queue
 
 # Open the "secret-api-key.txt" file and read the API key line
 with open("secret-api-key.txt", "r") as file:
@@ -13,16 +14,26 @@ with open("secret-api-key.txt", "r") as file:
 # Set the API key
 openai.api_key = api_key
 
-response = openai.ChatCompletion.create(
-    model="gpt-4",
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Who won the world series in 2020?"},
-        {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
-        {"role": "user", "content": "Where was it played?"}
-    ]
-)
+model_id="gpt-4"
 
-# Extract the generated text
-generated_text = response.choices[0].message
-print(generated_text)
+conversation_queue = Queue()
+
+while True:
+    prompt = input("Enter a prompt: ")
+    if prompt.lower() == "stop":
+        break
+
+    conversation_queue.put({"role": "user", "content": prompt})
+
+    messages = list(conversation_queue.queue)
+    # print(messages)
+
+    response = openai.ChatCompletion.create(
+        model=model_id,
+        messages=messages)
+    
+    message_str=response['choices'][0]['message']['content']
+    print(message_str)
+    
+    conversation_queue.put({"role": "assistant", "content": message_str})
+
