@@ -15,8 +15,18 @@ def create_main_blueprint(oauth):
 
     @main_blueprint.route('/')
     def home():
-        if "user" in session:
-            return 'Hello World AI Interviewer! You are currently signed in.'
+        if "user" in session and "email" in session["user"]:
+            email = session['user']['email']
+            user_profile = collection.find_one({"email": email})
+
+            if user_profile and 'job_descriptions' in user_profile and user_profile['job_descriptions']:
+                # Get the latest job description
+                latest_job_description = user_profile['job_descriptions'][-1]
+                # Convert the job description to a string for display
+                latest_job_desc_str = '\n'.join(f'{key}: {value}' for key, value in latest_job_description.items())
+                return f'Hello World AI Interviewer! You are currently signed in. Your latest job description: \n{latest_job_desc_str}'
+            else:
+                return 'Hello World AI Interviewer! You are currently signed in, but no job descriptions found.'
         else:
             return 'Hello World AI Interviewer! You are currently not signed in.'
 
@@ -70,10 +80,14 @@ def create_main_blueprint(oauth):
                 email = session['user']['email']
                 user_profile = collection.find_one({"email": email})
                 if user_profile:
-                    # Add job description to existing profile
-                    collection.update_one({"email": email}, {"$set": job_description})
+                    # Add new job description to the array of existing job descriptions
+                    collection.update_one(
+                        {"email": email},
+                        {"$push": {"job_descriptions": job_description}}
+                    )
                 else:
-                    new_profile = {"email": email, "job_description": job_description}
+                    # Create a new profile with an array for job descriptions
+                    new_profile = {"email": email, "job_descriptions": [job_description]}
                     collection.insert_one(new_profile)
                 return jsonify({'message': 'Job description updated successfully'}), 200
             else:
