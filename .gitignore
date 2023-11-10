@@ -8,6 +8,15 @@ secret-api-key.txt
 .gitconfig
 .lesshst
 .viminfo
+.cache
+.local
+.npm
+.ssh
+.vim
+.vscode-server
+.wget-hsts
+__pycache__
+file_uploads
 
 # dependencies
 /node_modules
