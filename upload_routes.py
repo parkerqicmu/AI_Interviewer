@@ -10,6 +10,8 @@ UPLOAD_FOLDER = 'file_uploads'
 # Specify allowed file extensions
 ALLOWED_EXTENSIONS = {'pdf', 'txt', 'doc', 'docx'}
 
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -29,6 +31,8 @@ def upload_file():
         return redirect(request.url)
 
     if file and allowed_file(file.filename):
+        if len(file.read()) > MAX_FILE_SIZE:
+            return 'File size exceeds the maximum allowed size.'
         filename = secure_filename(file.filename)
         file.save(os.path.join(UPLOAD_FOLDER, filename))
         return 'File uploaded successfully.'
