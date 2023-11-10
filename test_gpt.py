@@ -14,7 +14,7 @@ with open("secret-api-key.txt", "r") as file:
 # Set the API key
 openai.api_key = api_key
 
-model_id="gpt-4"
+model_id="gpt-4-1106-preview"
 
 conversation_queue = Queue()
 
