@@ -6,6 +6,8 @@
 </head>
 <body>
     <form id="jobDescriptionForm">
+        <label for="job_title">Company Name:</label><br>
+        <input type="text" id="job_title" name="job_title"><br>
         <label for="company_name">Company Name:</label><br>
         <input type="text" id="company_name" name="company_name"><br>
         <label for="company_description">Company Description:</label><br>
@@ -24,6 +26,7 @@
             event.preventDefault();  // prevent the form from submitting normally
 
             var formData = {
+                'job_title': $('#job_title').val(),
                 'company_name': $('#company_name').val(),
                 'company_description': $('#company_description').val(),
                 'position_name': $('#position_name').val(),
