@@ -33,7 +33,7 @@ oauth.register(
     client_kwargs={"scope": "openid profile email"},
 )
 
-# Register the Blueprint
+'''# Register the Blueprint
 from upload_routes import upload_blueprint
 
 UPLOAD_FOLDER = 'pdf_uploads'
@@ -43,7 +43,7 @@ upload_blueprint.config = {
     'ALLOWED_EXTENSIONS': ALLOWED_EXTENSIONS
 }
 
-app.register_blueprint(upload_blueprint)
+app.register_blueprint(upload_blueprint)'''
 # Register the Blueprint with the 'oauth' object passed as an argument
 main_blueprint = create_main_blueprint(oauth)
 app.register_blueprint(main_blueprint)

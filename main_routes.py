@@ -1,14 +1,24 @@
 #main_routes.py
 from flask import Blueprint, url_for, render_template, session, redirect, request, jsonify
 from authlib.integrations.flask_client import OAuth
+from pymongo import MongoClient
+from gridfs import GridFS
 import requests
 import google.oauth2.credentials
-from pymongo import MongoClient
+import os
+from werkzeug.utils import secure_filename
+
 
 # MongoDB client setup
 client = MongoClient('localhost', 27017)
 db = client['user_database']
 collection = db['user_profiles']
+fs = GridFS(db)
+
+# Define the folder where uploaded files will be stored
+UPLOAD_FOLDER = 'file_uploads'
+ALLOWED_EXTENSIONS = {'pdf', 'txt', 'doc', 'docx'}
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
 
 def create_main_blueprint(oauth):
     main_blueprint = Blueprint("main", __name__)
@@ -87,7 +97,7 @@ def create_main_blueprint(oauth):
                     )
                 else:
                     # Create a new profile with an array for job descriptions
-                    new_profile = {"email": email, "job_descriptions": [job_description]}
+                    new_profile = {"email": email, "job_descriptions": [job_description], "resume": None}
                     collection.insert_one(new_profile)
                 return jsonify({'message': 'Job description updated successfully'}), 200
             else:
@@ -96,4 +106,50 @@ def create_main_blueprint(oauth):
         elif request.method == 'GET':
             return render_template('job_description_form.html')
     
+    def allowed_file(filename):
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+    @main_blueprint.route('/upload')
+    def index():
+        return render_template('upload.html')
+
+    @main_blueprint.route('/upload_file', methods=['POST'])
+    def upload_file():
+        if 'file' not in request.files:
+            return jsonify({'message': 'No file part'}), 400
+
+        file = request.files['file']
+
+        if file.filename == '':
+            return jsonify({'message': 'No selected file'}), 400
+
+        if not allowed_file(file.filename):
+            return jsonify({'message': 'File type not allowed'}), 400
+
+        if "user" in session and "email" in session["user"]:
+            email = session['user']['email']
+            user_profile = collection.find_one({"email": email})
+
+            # Read file in a memory-efficient way
+            file.seek(0, os.SEEK_END)
+            file_length = file.tell()
+            if file_length > MAX_FILE_SIZE:
+                return jsonify({'message': 'File too large'}), 400
+            file.seek(0)  # Reset file pointer to the start
+
+            if user_profile:
+                filename = secure_filename(file.filename)
+                # Save the file content in GridFS or other storage here
+                # For example, let's assume you have a function save_file_to_storage(file)
+                file_id = fs.put(file, filename=file.filename)
+                collection.update_one(
+                    {"email": email},
+                    {"$set": {"resume": file_id}}
+                )
+                return jsonify({'message': 'Resume updated successfully'}), 200
+            else:
+                return jsonify({'message': 'User profile not found'}), 404
+        else:
+            return jsonify({'message': 'User not logged in'}), 401
+
     return main_blueprint
