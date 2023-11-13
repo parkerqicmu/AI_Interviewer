@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import GoogleLoginButton from './GoogleLoginButton';
+import LogoutButton from './LogoutButton';
 import './App.css';
 
 function App() {
@@ -15,6 +17,24 @@ function App() {
 
   const DefaultContent = () => {
     return <div>This is the default content</div>;
+  };
+
+  const [user, setUser] = useState(null);
+
+  const handleLoginSuccess = (response) => {
+    console.log('Login Success:', response);
+    // Handle successful login, e.g., store user information in state
+    setUser(response.profileObj);
+  };
+
+  const handleLoginFailure = (error) => {
+    console.error('Login Failure:', error);
+    // Handle login failure, e.g., show an error message
+  };
+
+  const handleLogout = () => {
+    // Implement logout logic, e.g., clear user information from state
+    setUser(null);
   };
   
 const MockInterview = () => {
@@ -71,6 +91,20 @@ const MockInterview = () => {
 
   return (
     <div className="app-container">
+      <h1>AI Interviewer</h1>
+      {/* <GoogleLoginButton onSuccess={handleLoginSuccess} onFailure={handleLoginFailure} /> */}
+      {user ? (
+        <>
+          <p>Welcome, {user.name}!</p>
+          <LogoutButton onLogout={handleLogout} />
+        </>
+      ) : (
+        <GoogleLoginButton onSuccess={handleLoginSuccess} onFailure={handleLoginFailure} />
+      )}
+      {console.log("hi")}
+
+      {console.log(user)}
+      {/* Add the rest of your application components */}
       <div className="exercise-list-container">
         <div className="logo-button-container">
         <img src="WechatIMG6.jpg" class="top-left-image" alt="logo" />
