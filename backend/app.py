@@ -2,6 +2,7 @@
 from flask import Flask, request, jsonify, Blueprint, render_template
 from authlib.integrations.flask_client import OAuth
 from main_routes import create_main_blueprint
+from flask_cors import CORS
 
 
 app = Flask(__name__)
@@ -47,6 +48,8 @@ app.register_blueprint(upload_blueprint)'''
 # Register the Blueprint with the 'oauth' object passed as an argument
 main_blueprint = create_main_blueprint(oauth)
 app.register_blueprint(main_blueprint)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)

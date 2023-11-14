@@ -12,6 +12,14 @@
   z-index: -1;
 }
 
+.btn--green {
+  background-color: green;
+  color: white;
+  border: 1px solid green;
+  border-radius: 20px;
+  opacity: 0.8;
+}
+
 .btn--primary {
   background-color: var(--primary);
   color: #ffffff;

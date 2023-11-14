@@ -1,0 +1,32 @@
+.container {
+  text-align: center;
+}
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  justify-content: flex-start; /* Align items to the start (left) */
+  background: white;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 100;
+}
+
+.fixed-header img {
+  width: 200px; /* Adjust the width as needed */
+  height: auto; /* Keep the aspect ratio */
+  margin-right: 20px; /* Add some space between the logo and the button */
+}
+
+.scroll-area {
+  margin-top: 60px; /* Adjust based on header size */
+  overflow-y: auto;
+  height: calc(100vh - 60px); /* Adjust based on header size */
+}
+
+.btn--green {
+  background-color: green;
+  color: white;
+  /* Add more styling as needed */
+}

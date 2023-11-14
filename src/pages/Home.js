@@ -8,7 +8,7 @@ const Home = () => {
         const token = response.credential;
         const profile = response.profile;
         try {
-            const backendResponse = await fetch('/signin_google', {
+            const backendResponse = await fetch('http://localhost:8000/signin_google', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
