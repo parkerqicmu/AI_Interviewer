@@ -1,6 +1,6 @@
 import * as React from "react";
 
-function conversation_ai(props) {
+function ai_conversation(props) {
     const handleButtonClick = () => {
         // handle button click event
     };
@@ -106,4 +106,4 @@ function conversation_ai(props) {
     }
     
     
-export default conversation_ai;
+export default ai_conversation;

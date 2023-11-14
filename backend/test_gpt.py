@@ -3,7 +3,7 @@ import pymongo
 from pymongo import MongoClient
 from queue import Queue
 
-from main_routes import db
+from backend.main_routes import db
 
 # Open the "secret-api-key.txt" file and read the API key line
 with open("secret-api-key.txt", "r") as file:

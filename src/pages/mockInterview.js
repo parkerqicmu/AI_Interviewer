@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+//import axios from 'axios';
 
 function MockInterview() {
   const [exercises, setExercises] = useState([]); // user practice list
