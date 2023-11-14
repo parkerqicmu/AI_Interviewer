@@ -1,8 +1,11 @@
 import React from 'react';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom';
 import logoImage from '../asset/AI-Interviewer-logo.jpg';
 
 const Home = () => {
+    const navigate = useNavigate();
+
     const handleLoginSuccess = async (response) => {
         console.log("Login Success:", response);
         const token = response.credential;
@@ -21,8 +24,9 @@ const Home = () => {
             if (!backendResponse.ok) {
                 throw new Error('Failed to send data to backend');
             }
-            const backendData = await backendResponse.json();
+            const backendData = await backendResponse.text();
             console.log('Response from backend:', backendData);
+            navigate('/create');
         } catch (error) {
             console.error('Error:', error);
         }

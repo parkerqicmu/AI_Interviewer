@@ -1,13 +1,13 @@
 #main_routes.py
 from flask import Blueprint, url_for, render_template, session, redirect, request, jsonify
 from google.oauth2 import id_token
-from google.auth.transport import requests
+from google.auth.transport import requests as google_auth_request
+import requests
+
 from pymongo import MongoClient
 from gridfs import GridFS
-import requests
 import os
 from werkzeug.utils import secure_filename
-
 
 # MongoDB client setup
 client = MongoClient('localhost', 27017)
@@ -29,7 +29,7 @@ def create_main_blueprint(oauth):
         token = data.get('token')
         CLIENT_ID = "1052692314440-1964crjte1jbd1uihhl9bjunnuah82mj.apps.googleusercontent.com"
         try:
-            idinfo = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
+            idinfo = id_token.verify_oauth2_token(token, google_auth_request.Request(), CLIENT_ID)
             userid = idinfo['sub']
             session["user"] = {
                 "token": token,

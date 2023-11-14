@@ -34,19 +34,9 @@ oauth.register(
     client_kwargs={"scope": "openid profile email"},
 )
 
-'''# Register the Blueprint
-from upload_routes import upload_blueprint
-
-UPLOAD_FOLDER = 'pdf_uploads'
-ALLOWED_EXTENSIONS = {'pdf', 'txt', 'doc', 'docx'}
-upload_blueprint.config = {
-    'UPLOAD_FOLDER': UPLOAD_FOLDER,
-    'ALLOWED_EXTENSIONS': ALLOWED_EXTENSIONS
-}
-
-app.register_blueprint(upload_blueprint)'''
 # Register the Blueprint with the 'oauth' object passed as an argument
 main_blueprint = create_main_blueprint(oauth)
+CORS(main_blueprint, resources={r"/*": {"origins": "http://localhost:3000"}})
 app.register_blueprint(main_blueprint)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
