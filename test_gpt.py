@@ -19,8 +19,8 @@ with open("secret-api-key.txt", "r") as file:
 openai.api_key = api_key
 model_id="gpt-4-1106-preview"
 
-# 
-number_of_questions = "2"
+# input example
+number_of_questions = "3"
 company_name = input("Enter the company name: ")
 company_description = input("Enter the company description: ")
 position_name = input("Enter the position name: ")

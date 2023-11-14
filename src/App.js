@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import GoogleLoginButton from './GoogleLoginButton.js';
 import LogoutButton from './LogoutButton.js';
 import './App.css';
+import axios from 'axios';
 
 function App() {
   const [exercises, setExercises] = useState([]); // user practice list
@@ -89,18 +90,39 @@ const MockInterview = () => {
     }
   };
 
+
+
+
+  // // axios.get('http://localhost:5000/api/google_login')
+  // //   .then(response => {
+  // //     console.log(response.data.result);
+  // //   })
+  // //   .catch(error => {
+  // //     console.error('Error:', error);
+  // //   });
+
+  // const google_login = async () => {
+  //   try {
+  //     const response = await axios.get('http://127.0.0.1:8000/google_login');
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
+
+
   return (
     <div className="app-container">
       <h1>AI Interviewer</h1>
-      {<GoogleLoginButton onSuccess={handleLoginSuccess} onFailure={handleLoginFailure} /> }
-      {/* {user ? (
+      {/* <GoogleLoginButton onSuccess={handleLoginSuccess} onFailure={handleLoginFailure} /> */}
+      {user ? (
         <>
           <p>Welcome, {user.name}!</p>
           <LogoutButton onLogout={handleLogout} />
         </>
       ) : (
         <GoogleLoginButton onSuccess={handleLoginSuccess} onFailure={handleLoginFailure} />
-      )} */}
+      )}
       {console.log("hi")}
 
       {console.log(user)}
