@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import GoogleLoginButton from './GoogleLoginButton';
-import LogoutButton from './LogoutButton';
+import GoogleLoginButton from './GoogleLoginButton.js';
+import LogoutButton from './LogoutButton.js';
 import './App.css';
 
 function App() {
@@ -92,15 +92,15 @@ const MockInterview = () => {
   return (
     <div className="app-container">
       <h1>AI Interviewer</h1>
-      {/* <GoogleLoginButton onSuccess={handleLoginSuccess} onFailure={handleLoginFailure} /> */}
-      {user ? (
+      {<GoogleLoginButton onSuccess={handleLoginSuccess} onFailure={handleLoginFailure} /> }
+      {/* {user ? (
         <>
           <p>Welcome, {user.name}!</p>
           <LogoutButton onLogout={handleLogout} />
         </>
       ) : (
         <GoogleLoginButton onSuccess={handleLoginSuccess} onFailure={handleLoginFailure} />
-      )}
+      )} */}
       {console.log("hi")}
 
       {console.log(user)}

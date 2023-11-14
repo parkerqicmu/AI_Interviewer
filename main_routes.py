@@ -61,7 +61,6 @@ def create_main_blueprint(oauth):
             return redirect(url_for("main.home"))
         else:
             return 'Failed to fetch user info', 500
-        return redirect(url_for("main.home"))
 
     @main_blueprint.route("/signout_google")
     def googleSignout():
