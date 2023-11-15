@@ -1,4 +1,8 @@
 import React, { useState, useRef } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import logoImage from '../asset/AI-Interviewer-logo.jpg';
+import './mockInterview.css';
 //import axios from 'axios';
 
 function MockInterview() {
@@ -13,25 +17,17 @@ function MockInterview() {
   const [page, setPage] = useState('default');
   const inputRef = useRef(null); 
 
+
+  const navigate = useNavigate();
+
+  const handleMockInterviewClick = () => {
+        navigate('/practice');
+      };
+
   const DefaultContent = () => {
     return <div>This is the default content</div>;
   };
   
-const MockInterview = () => {
-  const [dialog, setDialog] = useState('');
-
-  return (
-    <div className="dialog-input-container">
-      <input 
-        type="text" 
-        value={dialog} 
-        onChange={(e) => setDialog(e.target.value)} 
-        placeholder="Enter dialog"
-      />
-    </div>
-  );
-};
-
   // create new exercise
   const createExercise = () => {
     setExerciseCount(exerciseCount + 1);
@@ -73,7 +69,7 @@ const MockInterview = () => {
     <div className="app-container">
       <div className="exercise-list-container">
         <div className="logo-button-container">
-        <img src="WechatIMG6.jpg" class="top-left-image" alt="logo" />
+        <img src={logoImage}  class="top-left-image" alt="logo" />
           <button onClick={createExercise}>New Practice</button>
         </div>
         <div className="history-exercise-list">
@@ -127,7 +123,7 @@ const MockInterview = () => {
               onChange={(e) => setPResInputValue(e.target.value)}
               placeholder="Type in here"
             />
-            <button onClick={() => setPage('mockInterview')}>Mock Interview</button>
+            <button onClick={handleMockInterviewClick}>Mock Interview</button>
             <ul>
               {currentExercise.content.map((content, index) => (
                 <li key={index}>{content}</li>

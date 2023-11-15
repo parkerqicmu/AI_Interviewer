@@ -1,8 +1,8 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
-import AI_conversation from './pages/AI_conversation'
-import MockInterview from './pages/MockInterview'
+import AI_conversation from './pages/ai_conversation'
+import MockInterview from './pages/mockInterview'
 import New_practice from './pages/New_practice'
 import React from 'react'
 
