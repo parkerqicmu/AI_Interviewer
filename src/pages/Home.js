@@ -26,7 +26,7 @@ const Home = () => {
             }
             const backendData = await backendResponse.text();
             console.log('Response from backend:', backendData);
-            navigate('/create');
+            navigate('/mockInterview');
         } catch (error) {
             console.error('Error:', error);
         }
