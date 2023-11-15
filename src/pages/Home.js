@@ -44,8 +44,8 @@ const Home = () => {
                 <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
                     <img src={logoImage} alt="logo" style={{ maxWidth: '100%', maxHeight: '80%', height: 'auto' }} />
                 </div>
-                <div style={{ width: '1px', backgroundColor: 'black', height: '100%' }}></div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ width: '2px', backgroundColor: '#E9E9F4', height: '100%' }}></div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                     <h1>Login</h1>
                     <GoogleLogin
                         onSuccess={handleLoginSuccess}
