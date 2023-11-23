@@ -1,4 +1,4 @@
-.container {
+.left-side-bar {
   /* width: 30%; */
   text-align: center;
   align-items: center;
@@ -10,8 +10,10 @@
   flex-direction: column;
   justify-content: center; /* Align items to the center */
   background: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   /* z-index: 100; */
+  padding-top: 25px;
+  flex-shrink: 0;
 }
 
 .logo-hearder {
@@ -27,62 +29,54 @@
 }
 
 .new-button-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 40px;
   width: 100%;
-  height: 50px;
-  /* margin-bottom: 20px; */
 }
 
-.new-button{
-  width: 100%;
-  height: 100%;
-  background-color: #086330;
-  color: white;
-  border-radius: 10px;
-  border: none;
-}
-
-/* .fixed-header {
-  position: fixed;
-  top: 0;
-  justify-content: flex-start; /* Align items to the start (left) 
-  background: white;
-  padding: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  z-index: 100;
-  
-} */
-
-/* .fixed-header img {
-  width: 200px; 
-  height: auto; 
-  margin-right: 20px; 
-} */
-
-.scroll-area {
-  margin-top: 30px; /* Adjust based on header size */
-  overflow-y: auto;
-  height: calc(100vh - 60px); /* Adjust based on header size */
-}
-
-.button {
-  display: flex;
+.new-practice-button {
   width: 180px;
-  padding: 11px 24px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  border-radius: 40px;
-  background: #086330;
-  box-shadow: 0px 4px 10px 0px rgba(119, 119, 142, 0.40);
-
+  height: 44px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 
-.footer {
-  width: 229px;
-  height: 90px;
+.practice-button-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+  overflow: auto;
+  margin-top: 22px;
   flex-shrink: 0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.practice-button-wrap::-webkit-scrollbar{
+  display: none;
+}
+
+.practice-button {
+  width: 180px;
+  height: 44px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  flex-shrink: 0;
+  /* border: none; */
+}
+
+.selected-practice-button {
+  width: 180px;
+  height: 44px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  background: rgba(131, 194, 33, 0.15);
+  /* border: none; */
+  flex-shrink: 0;
 }
