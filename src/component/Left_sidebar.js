@@ -1,19 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './Button'; // Import your Button component
 import './Left_sidebar.css'; // Import your CSS for styling
 import logo from '../asset/AI-Interviewer-logo.jpg';
+import { useNavigate } from 'react-router-dom';
+import createExercise from '../pages/mockInterview';
 
-const ButtonList = () => {
+const ButtonList = ({onPracticeSelected, currentPracticeIndex}) => {
   const [buttons, setButtons] = useState([]);
+  
+  // const navigate = useNavigate();
+  const handlePracticeClick = (index) => {
+    // navigate('/practice');
+    onPracticeSelected(index);
+  };
 
   const addNewButton = () => {
-    setButtons([...buttons, 'New Button']);
+    const buttonNumber = buttons.length;
+    setButtons([...buttons, `Practice ${buttons.length + 1}`]);
+    handlePracticeClick(buttonNumber);
   };
+
+  useEffect(()=>{
+    addNewButton();
+  },[])
+
 
   return (
     <div className="container">
-      <div className="fixed-header">
+      <div className="logo-header">
         <img src={logo} alt="Logo" />
+      </div>
+      <div className="new-button-container">
         <Button
           buttonStyle="btn--green"
           buttonSize="btn--medium"
@@ -26,12 +43,15 @@ const ButtonList = () => {
         {buttons.map((button, index) => (
           <Button
             key={index}
-            buttonStyle="btn--primary"
+            buttonStyle="btn--outline"
             buttonSize="btn--medium"
+            onClick={()=>{handlePracticeClick(index)}}
           >
             {button}
           </Button>
         ))}
+      </div>
+      <div className="footer">
       </div>
     </div>
   );

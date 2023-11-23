@@ -5,7 +5,7 @@ import logoImage from '../asset/AI-Interviewer-logo.jpg';
 import './mockInterview.css';
 //import axios from 'axios';
 
-function MockInterview() {
+export function MockInterview() {
   const [exercises, setExercises] = useState([]); // user practice list
   const [currentExercise, setCurrentExercise] = useState(null); // current practice
   const [CompanyNameInputValue, setCNInputValue] = useState(''); // user input value

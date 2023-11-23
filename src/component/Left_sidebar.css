@@ -1,33 +1,88 @@
 .container {
+  /* width: 30%; */
   text-align: center;
+  align-items: center;
+  /* position: fixed;
+  top: 0; */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Align items to the center */
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  /* z-index: 100; */
 }
 
-.fixed-header {
+.logo-hearder {
+  width: 100%;
+  height: 100px;
+  background-color: #f5f5f5;
+  margin-bottom: 20px;
+}
+
+.logo-header img {
+  width: 100%;
+  height: auto;
+}
+
+.new-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  /* margin-bottom: 20px; */
+}
+
+.new-button{
+  width: 100%;
+  height: 100%;
+  background-color: #086330;
+  color: white;
+  border-radius: 10px;
+  border: none;
+}
+
+/* .fixed-header {
   position: fixed;
   top: 0;
-  width: 30%;
-  justify-content: flex-start; /* Align items to the start (left) */
+  justify-content: flex-start; /* Align items to the start (left) 
   background: white;
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   z-index: 100;
   
-}
+} */
 
-.fixed-header img {
-  width: 200px; /* Adjust the width as needed */
-  height: auto; /* Keep the aspect ratio */
-  margin-right: 20px; /* Add some space between the logo and the button */
-}
+/* .fixed-header img {
+  width: 200px; 
+  height: auto; 
+  margin-right: 20px; 
+} */
 
 .scroll-area {
-  margin-top: 60px; /* Adjust based on header size */
+  margin-top: 30px; /* Adjust based on header size */
   overflow-y: auto;
   height: calc(100vh - 60px); /* Adjust based on header size */
 }
 
-.btn--green {
-  background-color: green;
-  color: white;
-  /* Add more styling as needed */
+.button {
+  display: flex;
+  width: 180px;
+  padding: 11px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 40px;
+  background: #086330;
+  box-shadow: 0px 4px 10px 0px rgba(119, 119, 142, 0.40);
+
+}
+
+.footer {
+  width: 229px;
+  height: 90px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }

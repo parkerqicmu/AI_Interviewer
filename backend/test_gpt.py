@@ -3,7 +3,6 @@ import pymongo
 from pymongo import MongoClient
 from queue import Queue
 
-from backend.main_routes import db
 
 # Open the "secret-api-key.txt" file and read the API key line
 with open("secret-api-key.txt", "r") as file:
@@ -36,7 +35,7 @@ difficulty = "easy"
 def generate_questions(history_conversation, number_of_questions, company_name, company_description, position_name, position_responsibilities, position_requirements, user_experience, question_type, difficulty):
     prompt_list = []
     question_list = []
-    initial_prompt = f"Act like an experienced interviewer and job hunting coach. Your task is to generate {number_of_questions} likely interview questions based on the information about the {position_name} in {company_name}. Company information is: {company_description}; Position responsibilities are: {position_responsibilities} and position requirements are: {position_requirements}. Question type is {question_type}, difficulty in {difficulty}. Please incorporate personal information about the interviewee, whose experience is {user_experience}. Only present your interview questions, do not include any explanation or answer. Make sure the questions and answers are specific to the particular job description and user experience provided. If user did not provide any detail information, generate general questions."
+    initial_prompt = f"Act like an experienced interviewer and job hunting coach. Your task is to generate {number_of_questions} likely interview questions based on the information about the {position_name} in {company_name}. Company information is: {company_description}; Position responsibilities are: {position_responsibilities} and position requirements are: {position_requirements}. Question type is {question_type}, difficulty in {difficulty}. Please incorporate personal information about the interviewee, whose experience is {user_experience}. Only present your interview questions, do not include any explanation or answer. Make sure the questions and answers are specific to the particular job description, question requirements and user experience provided. If user did not provide any detail information, generate general questions."
     history_conversation.append({"role": "user", "content": initial_prompt})
     prompt_list.append({"role": "user", "content": initial_prompt})
     messages = prompt_list
