@@ -20,10 +20,35 @@ export function MockInterview() {
 
   const navigate = useNavigate();
 
-  const handleMockInterviewClick = () => {
-        navigate('/practice');
-      };
-
+  const handleMockInterviewClick = async () => {
+    try {
+      const backendResponse = await fetch('http://localhost:8000/job_description', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            job_title: PositionNameInputValue,
+            company_name: CompanyNameInputValue,
+            company_description: CompanyDescriptionInputValue,
+            position_name: PositionNameInputValue,
+            position_responsibility: PositionResponsibilityInputValue,
+            position_requirements: PositionRequirementInputValue
+          }),
+      });
+      if (!backendResponse.ok) {
+          throw new Error('Failed to send data to backend');
+      }
+      const backendData = await backendResponse.text();
+      console.log('Response from backend:', backendData);
+      if (backendData['message'] == "User not logged in") {
+        navigate('/login');
+      }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+      navigate('/practice');
+    };
   const DefaultContent = () => {
     return <div>This is the default content</div>;
   };

@@ -9,6 +9,8 @@ from gridfs import GridFS
 import os
 from werkzeug.utils import secure_filename
 
+from gpt import generate_questions, follow_up_questions, generate_feedback
+
 # MongoDB client setup
 client = MongoClient('localhost', 27017)
 db = client['user_database']
@@ -36,6 +38,7 @@ def create_main_blueprint(oauth):
                 'profile': data.get('profile'),
                 'userid': userid,
             }
+            print(session)
         except ValueError:
             return 'Invalid token', 400
         
@@ -52,7 +55,7 @@ def create_main_blueprint(oauth):
         session.pop("user", None)
         return 'Successfully signed out with Google!', 200
 
-    @main_blueprint.route('/job_description')
+    @main_blueprint.route('/job_description', methods=['POST'])
     def add_job_description():
         data = request.get_json()  # get the request data in JSON format
         job_description = {
@@ -61,9 +64,11 @@ def create_main_blueprint(oauth):
             'company_description': data.get('company_description'),
             'position_name': data.get('position_name'),
             'position_responsibility': data.get('position_responsibility'),
-            'position_requirements': data.get('position_requirements')
+            'position_requirements': data.get('position_requirements'),
+            'conversation_history': {}
         }
         # Check if user is logged in and retrieve their userid
+        print(session)
         if "user" in session and "userid" in session["user"]:
             userid = session['user']['userid']
             user_profile = collection.find_one({"userid": userid})
@@ -122,5 +127,76 @@ def create_main_blueprint(oauth):
                 return jsonify({'message': 'User profile not found'}), 404
         else:
             return jsonify({'message': 'User not logged in'}), 401
+    
+    # generate questions from GPT
+    # input: question type & difficulty
+    @main_blueprint.route('/get_questions', methods=['POST'])
+    def get_questions():
+        data = request.get_json()
+
+        history = {}
+        number_of_questions = 5
+        company_name = None
+        company_description = None
+        position_name = None
+        position_responsibilities = None
+        position_requirements = None
+        user_experience = None
+        question_type = data.get('question_type')
+        difficulty = data.get('difficulty')
+
+        # Check if user is logged in and retrieve their userid
+        if "user" in session and "userid" in session["user"]:
+            userid = session['user']['userid']
+            user_profile = collection.find_one({"userid": userid})
+            if user_profile:
+                # get job description
+                job_descriptions = user_profile[-1]['job_descriptions']
+                history = job_descriptions.get('conversation_history')
+                company_name = job_descriptions.get('company_name')
+                company_description = job_descriptions.get('company_description')
+                position_name = job_descriptions.get('position_name')
+                position_responsibilities = job_descriptions.get('position_responsibility')
+                position_requirements = job_descriptions.get('position_requirements')
+                # get resume
+                resume = user_profile['resume']
+                if resume:
+                    resume_file = fs.get(resume)
+                    user_experience = resume_file.read()
+                else:
+                    user_experience = None
+            else:
+                return jsonify({'message': 'Unexpected Error'}), 401
+        else:
+            return jsonify({'message': 'User not logged in'}), 401
+    
+        questions = generate_questions(history, number_of_questions, company_name, company_description, position_name, position_responsibilities, position_requirements, user_experience, question_type, difficulty)
+        return jsonify({'questions': questions}), 200
+    
+    # generate feedback from GPT
+    # input: answer to the question
+    @main_blueprint.route('/generate_feedback', methods=['POST'])
+    def get_feedback():
+        data = request.get_json()
+        answer = data.get('answer')
+
+        # Check if user is logged in and retrieve their userid
+        if "user" in session and "userid" in session["user"]:
+            userid = session['user']['userid']
+            user_profile = collection.find_one({"userid": userid})
+            if user_profile:
+                # get job description
+                job_descriptions = user_profile[-1]['job_descriptions']
+                history = job_descriptions.get('conversation_history')
+                company_name = job_descriptions.get('company_name')
+                position_name = job_descriptions.get('position_name')
+            else:
+                return jsonify({'message': 'Unexpected Error'}), 401
+        else:
+            return jsonify({'message': 'User not logged in'}), 401
+        
+        feedback = generate_feedback(history, answer, company_name, position_name)
+        return jsonify({'feedback': feedback}), 200
 
     return main_blueprint
+

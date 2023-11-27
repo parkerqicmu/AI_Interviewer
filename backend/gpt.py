@@ -18,17 +18,6 @@ with open("secret-api-key.txt", "r") as file:
 openai.api_key = api_key
 model_id="gpt-4-1106-preview"
 
-# input example
-number_of_questions = "3"
-company_name = input("Enter the company name: ")
-company_description = input("Enter the company description: ")
-position_name = input("Enter the position name: ")
-position_responsibilities = input("Enter the position responsibilities: ")
-position_requirements = input("Enter the position requirements: ")
-user_experience = input("Enter your experience: ")
-question_type = "general"
-difficulty = "easy"
-
 # generate all questions at once
 # input: an new conversation array, all job description, user experience, question type etc. in string
 # output: array of questions
@@ -93,6 +82,18 @@ def generate_feedback(history_conversation):
 ############################################################################################################
 # example of calling the functions
 
+'''
+# input example
+number_of_questions = "3"
+company_name = input("Enter the company name: ")
+company_description = input("Enter the company description: ")
+position_name = input("Enter the position name: ")
+position_responsibilities = input("Enter the position responsibilities: ")
+position_requirements = input("Enter the position requirements: ")
+user_experience = input("Enter your experience: ")
+question_type = "general"
+difficulty = "easy"
+
 # new a empty conversation list
 conversation_list = []
 # generate questions
@@ -117,4 +118,4 @@ while True:
     prompt = input("Enter a your ansewer: ")
     if prompt.lower() == "stop":
         break
-   
+'''
