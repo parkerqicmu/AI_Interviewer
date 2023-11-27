@@ -36,7 +36,7 @@ const AI_conversation = () => {
         ))}
       </div>
       <div className="chat-input">
-        <input
+        <textarea
           ref={inputRef}
           type="text"
           placeholder="Type your answer here"

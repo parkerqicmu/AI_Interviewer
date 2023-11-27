@@ -43,24 +43,24 @@ const New_practice = () => {
     setCurrentPracticeIndex(newIndex);
   };
 
-  // const mockInterview = async () => {
-  //   console.log(
-  //       "[debug] mock interview",
-  //       practiceList[currentPracticeIndex]
-  //   );
+  const mockInterview = async () => {
+    console.log(
+        "[debug] mock interview",
+        practiceList[currentPracticeIndex]
+    );
 
-  //   // =================================
-  //   //[placehoder] send form data to backend api, may need process
-  //   const formData = practiceList[currentPracticeIndex];
+    // =================================
+    //[placehoder] send form data to backend api, may need process
+    const formData = practiceList[currentPracticeIndex];
 
-  //   // =================================
+    // =================================
 
-  //   // switch to mock interview
-  //   handleFormChange({
-  //       ...practiceList[currentPracticeIndex],
-  //       step: "chat",
-  //   });
-  // };
+    // switch to mock interview
+    handleFormChange({
+        ...practiceList[currentPracticeIndex],
+        step: "chat",
+    });
+  };
 
   const currentStep = () => {
       if (currentPracticeIndex < 0) {
@@ -92,12 +92,12 @@ const New_practice = () => {
             />
         </div>
         <div className="right-column">
-            { 
+            
             <div className="form-title">{currentName()}</div>
-            /*{
+            {
                 // form or chat component
                 currentStep() === "chat" ? (
-                    <AIConversation />
+                    <AI_conversation />
                 ) : (
                     <PracticeForm
                         formData={
@@ -109,7 +109,8 @@ const New_practice = () => {
                         onMockInterviewClick={mockInterview}
                     />
                 )
-            } */}
+            } 
+        
         </div>
     </div>
   );

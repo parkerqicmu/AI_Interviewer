@@ -4,54 +4,65 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
+    margin: 0 20vw
   }
   
   .chat-messages {
     flex: 1;
     overflow-y: auto;
     padding: 10px;
+    display: flex;
+    flex-direction: column; /* Ensure messages stack vertically */
+    align-items: flex-end
   }
   
   .message {
-    max-width: 70%;
+    max-width: 70%; /* Adjust the maximum width of the message bubble */
     padding: 8px;
-    padding-top: 8px; 
-    padding-bottom: 8px;
-    padding-left: 8px;
-    padding-right: 8px;
     margin: 5px;
     border-radius: 8px;
+    word-wrap: break-word;
   }
+  
   
   .user {
     background-color: #ECF6DE;
     color: #086330;
+    word-wrap: break-word;
+    display: flex;
     align-self: flex-end;
     border-radius: 8px;
     justify-content: flex-end; 
+    /* margin: 8px 20px */
   }
   
   .bot {
     background-color: #086330;
     color: #FFFFFF;
+    word-wrap: break-word;
+    display: flex;
     align-self: flex-start;
+    align-items: flex-start;
     justify-content: flex-start; 
   }
   
   .chat-input {
-    
     display: block;
     padding: 10px;
+    word-wrap: break-word;
+    
   }
   
   input {
     background-color: #E9E9F4;
     flex: 1;
+    word-wrap: break-word;
     padding-top: 10px;
     padding-bottom: 30px;
     padding-left: 10px;
     margin-right: 20px;
     border: none;
+    border-radius: 8px;
     width: 100%;
   }
   
