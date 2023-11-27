@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './AI_conversation.css';
 
-const AI_conversation = async ({ gptResponse }) => {
+const AI_conversation = ({ gptResponse }) => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const inputRef = useRef(null);
 
+  /*
   try {
     const backendResponse = await fetch('http://localhost:8000/generate_feedback', {
         method: 'POST',
@@ -21,6 +22,7 @@ const AI_conversation = async ({ gptResponse }) => {
   } catch (error) {
       console.error('Error:', error);
   }
+  */
 
   useEffect(() => {
     // reply from ai
