@@ -70,10 +70,11 @@ export function MockInterview() {
       <div className="exercise-list-container">
         <div className="logo-button-container">
         <img src={logoImage}  class="top-left-image" alt="logo" />
+        <h2>Practice List</h2>
           <button onClick={createExercise}>New Practice</button>
         </div>
         <div className="history-exercise-list">
-          <h2>Practice List</h2>
+          
           <ul>
             {exercises.map((exercise) => (
               <li key={exercise.id}>{exercise.name}</li>

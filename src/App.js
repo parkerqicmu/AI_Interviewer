@@ -5,7 +5,7 @@ import AI_conversation from './pages/ai_conversation'
 import MockInterview from './pages/mockInterview'
 import New_practice from './pages/New_practice'
 import React from 'react'
-import { ConfigProvider } from "antd";
+import { ConfigProvider } from "antd"
 
 function App () {
   console.log("Rendering");
