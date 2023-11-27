@@ -1,22 +1,36 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './AI_conversation.css';
 
-const AI_conversation = () => {
+const AI_conversation = async ({ gptResponse }) => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const inputRef = useRef(null);
 
+  try {
+    const backendResponse = await fetch('http://localhost:8000/generate_feedback', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          answer: "I am a student at UBC.",
+        }),
+    });
+    const backendData = await backendResponse.text();
+    console.log('Response from backend:', backendData);
+  } catch (error) {
+      console.error('Error:', error);
+  }
+
   useEffect(() => {
     // reply from ai
     if (messages.length > 0 && messages[messages.length - 1].user === 'user') {
-      setTimeout(() => {
-        setMessages([
-          ...messages,
-          { user: 'bot', text: `output from ai` },
-        ]);
-      }, 1000);
+      setMessages(prevMessages => [
+        ...prevMessages,
+        { user: 'bot', text: gptResponse },
+      ]);
     }
-  }, [messages]);
+  }, [messages, gptResponse]);
 
   const handleSendMessage = () => {
     if (inputText.trim() !== '') {
