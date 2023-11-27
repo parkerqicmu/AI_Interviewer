@@ -1,130 +1,230 @@
-import React, { useState, useRef } from 'react';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import logoImage from '../asset/AI-Interviewer-logo.jpg';
-// import './mockInterview.css';
+import * as React from "react";
+import "./PracticeForm.css";
+import { Input, Button, Select } from "antd";
 
-const PracticeForm = ({onChange}) => {
-    const [exercises, setExercises] = useState([]); // user practice list
-    const [currentExercise, setCurrentExercise] = useState(null); // current practice
-    const [CompanyNameInputValue, setCNInputValue] = useState(''); // user input value
-    const [CompanyDescriptionInputValue, setCDInputValue] = useState(''); // user input value
-    const [PositionNameInputValue, setPNInputValue] = useState(''); // user input value
-    const [PositionRequirementInputValue, setPReqInputValue] = useState(''); // user input value
-    const [PositionResponsibilityInputValue, setPResInputValue] = useState(''); // user input value
-    const [exerciseCount, setExerciseCount] = useState(0);
-    const [page, setPage] = useState('default');
-    const inputRef = useRef(null); 
-  
-    const updateData = () => {
-        const jobData = {
-            CompanyNameInputValue: CompanyNameInputValue,
-            CompanyDescriptionInputValue: CompanyDescriptionInputValue,
-            PositionNameInputValue: PositionNameInputValue,
-            PositionRequirementInputValue: PositionRequirementInputValue,
-            PositionResponsibilityInputValue: PositionResponsibilityInputValue
-        }
-        onChange(jobData)
+const { TextArea } = Input;
+
+// question type options
+const questionTypeOptions = [
+    {
+        value: "general",
+        label: "General",
+    },
+    {
+        value: "productDesign",
+        label: "Product Design",
+    },
+    {
+        value: "productStrategy",
+        label: "Product Strategy",
+    },
+    {
+        value: "executionMetrics",
+        label: "Execution and Metrics",
+    },
+    {
+        value: "behavioralQuestions",
+        label: "Behavioral Questions",
+    },
+];
+
+const questionDifficultyOptions = [
+    {
+        value: "easy",
+        label: "Easy",
+    },
+    {
+        value: "hard",
+        label: "Hard",
+    },
+];
+
+const questionNumberOptions = () => {
+    let res = [];
+    for (let i = 1; i <= 10; i++) {
+        res.push({
+            value: i,
+            label: String(i),
+        });
     }
+    return res;
+};
 
-
-    const navigate = useNavigate();
-  
-    const handleMockInterviewClick = () => {
-          navigate('/practice');
-        };
-  
-    const DefaultContent = () => {
-      return <div>This is the default content</div>;
-    };
-    
-    // create new exercise
-    const createExercise = () => {
-      setExerciseCount(exerciseCount + 1);
-      const newExercise = {
-        id: Date.now(),
-        name: `Practice ${exerciseCount + 1}`,
-        content: [],
-      };
-      setExercises([...exercises, newExercise]);
-      setCurrentExercise(newExercise);
-      setPage('default'); // Add this line
-      setCNInputValue('');
-      setCDInputValue('');
-      setPNInputValue('');
-      setPReqInputValue('');
-      setPResInputValue('');
-    };
-  
-    // add input content to current exercise
-    const addInputContent = () => {
-      if (currentExercise) {
-        const updatedExercise = { ...currentExercise };
-        updatedExercise.content.push(CompanyNameInputValue);
-        updatedExercise.content.push(CompanyDescriptionInputValue);
-        updatedExercise.content.push(PositionNameInputValue);
-        updatedExercise.content.push(PositionRequirementInputValue);
-        updatedExercise.content.push(PositionResponsibilityInputValue);
-        setCurrentExercise(updatedExercise);
-        setCNInputValue('');
-        setCDInputValue('');
-        setPNInputValue('');
-        setPReqInputValue('');
-        setPResInputValue('');
-        inputRef.current.focus();
-      }
+const PracticeForm = ({ onChange, formData, onMockInterviewClick }) => {
+    const onInputChange = (data, key) => {
+        // console.log("input change", data, key);
+        onChange({ ...formData, [key]: data });
     };
 
-    useEffect(() => {
-        updateData();
-    }, [CompanyNameInputValue, CompanyDescriptionInputValue, PositionNameInputValue, PositionRequirementInputValue, PositionResponsibilityInputValue]);
-  
+    const onSelectChange = (data, key) => {
+        // console.log("=====onSelectChange====", data, key);
+        onChange({ ...formData, [key]: data });
+    };
+
     return (
-        <div>
-        <h2>Job Imformation</h2>
-        <h3>Company Name</h3>
-        <textarea
-          ref={inputRef}
-          value={CompanyNameInputValue}
-          onChange={(e) => setCNInputValue(e.target.value)}
-          placeholder="Type in here"
-        />
-        <h3>Company Description</h3>
-        <textarea
-          ref={inputRef}
-          value={CompanyDescriptionInputValue}
-          onChange={(e) => setCDInputValue(e.target.value)}
-          placeholder="Type in here"
-        />
-        <h3>Position Name</h3>
-        <textarea
-          ref={inputRef}
-          value={PositionNameInputValue}
-          onChange={(e) => setPNInputValue(e.target.value)}
-          placeholder="Type in here"
-        />
-        <h3>Position Responsibility</h3>
-        <textarea
-          ref={inputRef}
-          value={PositionRequirementInputValue}
-          onChange={(e) => setPReqInputValue(e.target.value)}
-          placeholder="Type in here"
-        />
-        <h3>Position Requirement</h3>
-        <textarea
-          ref={inputRef}
-          value={PositionResponsibilityInputValue}
-          onChange={(e) => setPResInputValue(e.target.value)}
-          placeholder="Type in here"
-        />
-        {/* <button onClick={handleMockInterviewClick}>Mock Interview</button>
-        <ul>
-          {currentExercise.content.map((content, index) => (
-            <li key={index}>{content}</li>
-          ))}
-        </ul> */}
-      </div>
-    );
-  }
-export default PracticeForm;
+        <div className="input-form">
+            {/* Job information */}
+            <div className="input-form-subsection">
+                <div className="input-form-title">Job Imformation</div>
+                <div className="input-form-description">
+                    We recommend that you fill in a detailed description of your
+                    target position, and interview questions will be tailored
+                    based on the information you provide. You can also leave it
+                    blank and we will provide you with generic questions.
+                </div>
 
+                {/* company name */}
+                <div className="input-section-wrap">
+                    <div className="input-section-label">Company Name</div>
+                    <Input
+                        value={formData.companyName}
+                        onChange={(e) => {
+                            onInputChange(e.target.value, "companyName");
+                        }}
+                    />
+                </div>
+                {/* Company Description */}
+                <div className="input-section-wrap">
+                    <div className="input-section-label">
+                        Company Description
+                    </div>
+                    <TextArea
+                        rows={4}
+                        value={formData.companyDescription}
+                        autoSize={false}
+                        onChange={(e) => {
+                            onInputChange(e.target.value, "companyDescription");
+                        }}
+                    />
+                </div>
+                {/* Position Name  */}
+                <div className="input-section-wrap">
+                    <div className="input-section-label">Position Name </div>
+                    <Input
+                        value={formData.positionName}
+                        onChange={(e) => {
+                            onInputChange(e.target.value, "positionName");
+                        }}
+                    />
+                </div>
+                {/* Position Responsibilities  */}
+                <div className="input-section-wrap">
+                    <div className="input-section-label">
+                        Position Responsibilities
+                    </div>
+                    <TextArea
+                        rows={4}
+                        value={formData.positionResponsibilities}
+                        autoSize={false}
+                        onChange={(e) => {
+                            onInputChange(
+                                e.target.value,
+                                "positionResponsibilities"
+                            );
+                        }}
+                    />
+                </div>
+                {/* Position Requirements  */}
+                <div className="input-section-wrap">
+                    <div className="input-section-label">
+                        Position Requirements
+                    </div>
+                    <TextArea
+                        rows={4}
+                        value={formData.positionRequirements}
+                        autoSize={false}
+                        onChange={(e) => {
+                            onInputChange(
+                                e.target.value,
+                                "positionRequirements"
+                            );
+                        }}
+                    />
+                </div>
+            </div>
+
+            {/* Question information */}
+            <div className="input-form-subsection subsection-with-separator">
+                <div className="input-form-title">Question Information</div>
+                <div className="input-form-description">
+                    Please select interview question type and difficulty.
+                </div>
+
+                {/* Question type  */}
+                <div className="input-section-wrap">
+                    <div className="input-section-label">Question Type</div>
+                    <Select
+                        className="input-section-select"
+                        value={formData.questionType}
+                        onChange={(value) => {
+                            onSelectChange(value, "questionType");
+                        }}
+                        options={questionTypeOptions}
+                    />
+                </div>
+
+                {/* Difficulty */}
+                <div className="input-section-wrap">
+                    <div className="input-section-label">Difficulty</div>
+                    <Select
+                        className="input-section-select"
+                        value={formData.questionDifficulty}
+                        onChange={(value) => {
+                            onSelectChange(value, "questionDifficulty");
+                        }}
+                        options={questionDifficultyOptions}
+                    />
+                </div>
+
+                {/* Numbers */}
+                <div className="input-section-wrap">
+                    <div className="input-section-label">Numbers</div>
+                    <Select
+                        className="input-section-select"
+                        value={formData.questionNumbers}
+                        onChange={(value) => {
+                            onSelectChange(value, "questionNumbers");
+                        }}
+                        options={questionNumberOptions()}
+                    />
+                </div>
+            </div>
+
+            {/* interviewee information */}
+            <div className="input-form-subsection subsection-with-separator">
+                <div className="input-form-title">Interviewee Information</div>
+                <div className="input-form-description">
+                    We recommend you fill in previous work, education, project
+                    experience or upload resume, the interview questions will
+                    generated based on your experience. You may also not provide
+                    personal information and we will generate generic questions.
+                </div>
+
+                {/* Your Experience  */}
+                <div className="input-section-wrap">
+                    <div className="input-section-label">Your Experience</div>
+                    <TextArea
+                        rows={4}
+                        value={formData.yourExperience}
+                        autoSize={false}
+                        onChange={(e) => {
+                            onInputChange(e.target.value, "yourExperience");
+                        }}
+                    />
+                </div>
+            </div>
+
+            <div className="input-form-bottom-wrap">
+                <Button
+                    className="form-mock-interview-button"
+                    type="primary"
+                    // shape="round"
+                    onClick={onMockInterviewClick}
+                >
+                    Mock Interview
+                </Button>
+            </div>
+        </div>
+    );
+};
+export default PracticeForm;
