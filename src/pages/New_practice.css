@@ -29,6 +29,7 @@
   font-weight: 600;
   line-height: normal;
   border-bottom: 1px #e9e9f4 solid;
+  flex-shrink: 0;
 }
 
 .back {
