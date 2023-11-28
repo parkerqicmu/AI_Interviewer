@@ -13,6 +13,7 @@ const New_practice = () => {
   const [practiceList, setPracticeList] = useState([]); // user practice list
   const [currentPracticeIndex, setCurrentPracticeIndex] = useState(-1); //define the current practice index
   const [gptResponse, setGptResponse] = useState('');
+  const [questionNumbers, setquestionNumbers] = useState('');
 
   // update form data
   const handleFormChange = (newFormData) => {
@@ -82,7 +83,7 @@ const New_practice = () => {
     } catch (error) {
         console.error('Error:', error);
     }
-
+    setquestionNumbers(formData.questionNumbers);
     // =================================
 
     // switch to mock interview
@@ -170,7 +171,7 @@ const New_practice = () => {
             {
                 // form or chat component
                 currentStep() === "chat" ? (
-                  <AI_conversation gptResponse={gptResponse} />
+                  <AI_conversation gptResponse={gptResponse} questionNumbers={questionNumbers}/>
                 ) : (
                     <PracticeForm
                         formData={

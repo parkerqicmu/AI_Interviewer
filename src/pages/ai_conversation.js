@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './AI_conversation.css';
 
-const AI_conversation = ({ gptResponse }) => {
+const AI_conversation = ({ gptResponse, questionNumbers}) => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const inputRef = useRef(null);
   const [feedbackData, setFeedbackData] = useState('');
+  const [questionData, setQuestionData] = useState('');
+  const questionLength = questionNumbers;
+  const [questionCount, setQuestionCount] = useState(0);
 
   const fetchGptFeedback = async () => {
     try {
@@ -27,13 +30,34 @@ const AI_conversation = ({ gptResponse }) => {
     }
   };
 
+  useEffect(() => {
+    if (gptResponse === '') {
+      return;
+    }
+    const parsedResponse = JSON.parse(gptResponse);
+    setMessages(prevMessages => [
+      ...prevMessages,
+      { user: 'bot', text: parsedResponse.questions[questionCount]},
+    ]);
+    setQuestionCount(questionCount+1);
+  }, [questionData]);
 
   useEffect(() => {
+    if (gptResponse === '') {
+      return;
+    }
+    console.log(questionCount, questionLength);
     if (messages.length > 1 && messages[messages.length - 1].user === 'user') {
-      fetchGptFeedback();
+      if (questionCount < questionLength) {
+        const parsedResponse = JSON.parse(gptResponse);
+        setQuestionData(parsedResponse.questions[questionCount]);
+      } else {
+        fetchGptFeedback();
+      }
     }
   }, [messages]);
 
+  //receive questions
   useEffect(() => {
     if (gptResponse === '') {
       setTimeout(() => {
@@ -44,17 +68,11 @@ const AI_conversation = ({ gptResponse }) => {
       }, 1000);
       return;
     }
-    const parsedResponse = JSON.parse(gptResponse)
-
-    parsedResponse.questions.forEach(question => {
-      setMessages(prevMessages => [
-        ...prevMessages,
-        { user: 'bot', text: question },
-      ]);
-    });
+    const parsedResponse = JSON.parse(gptResponse);
+    setQuestionData(parsedResponse.questions[questionCount]);
   }, [gptResponse]);
 
-
+  //GPT send feedback
   useEffect(() => {
     if (feedbackData === '') {
       return;
@@ -65,7 +83,6 @@ const AI_conversation = ({ gptResponse }) => {
       ...prevMessages,
       { user: 'bot', text: parsedFeedback.feedback },
     ]);
-  
   }, [feedbackData]);
 
   const handleSendMessage = () => {
