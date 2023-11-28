@@ -110,9 +110,9 @@ const New_practice = () => {
             difficulty: formData.questionDifficulty
           }),
       });
-      const backendData = await backendResponse.text();
+      const backendData = await backendResponse.json();;
+      setGptResponse(JSON.stringify(backendData));
       console.log('Response from backend:', backendData);
-      setGptResponse(backendData);  
     } catch (error) {
         console.error('Error:', error);
     }

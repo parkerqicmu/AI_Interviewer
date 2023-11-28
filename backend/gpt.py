@@ -16,7 +16,7 @@ with open("secret-api-key.txt", "r") as file:
 
 # Set the API key
 openai.api_key = api_key
-model_id="gpt-4-1106-preview"
+model_id="gpt-3.5-turbo-1106"
 
 # generate all questions at once
 # input: an new conversation array, all job description, user experience, question type etc. in string
@@ -68,8 +68,8 @@ def follow_up_questions(history_conversation, company_name, position_name, quest
 # input: array of conversation in {"role": xxx, "content": xxx} structure
 # output: string
 def generate_feedback(history_conversation):
-    feedback_prompt = f"You are now a professional job search coach, please give a fair evaluation of the user's answers to the above questions and suggestions for improvement. If you are confused with users answer, you can ask follow-up questions. If you can't understand the user's answers, offer interview preparation advice for the position"
-    history_conversation.append({"role": "user", "content": feedback_prompt})
+    feedback_prompt = f"You are now a professional job search coach, give critical evaluation of the user's answers to the above questions and suggestions for improvement. If answer is unclear, ask follow-up questions."
+    history_conversation.append({"role": "system", "content": feedback_prompt})
     messages = history_conversation
    
     response = openai.ChatCompletion.create(

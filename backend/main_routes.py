@@ -156,24 +156,13 @@ def create_main_blueprint(oauth):
     @main_blueprint.route('/generate_feedback', methods=['POST'])
     def get_feedback():
         data = request.get_json()
-        answer = data.get('answer')
-
-        # Check if user is logged in and retrieve their userid
-        if "user" in session and "userid" in session["user"]:
-            userid = session['user']['userid']
-            user_profile = collection.find_one({"userid": userid})
-            if user_profile:
-                # get job description
-                job_descriptions = user_profile[-1]['job_descriptions']
-                history = job_descriptions.get('conversation_history')
-                company_name = job_descriptions.get('company_name')
-                position_name = job_descriptions.get('position_name')
-            else:
-                return jsonify({'message': 'Unexpected Error'}), 401
-        else:
-            return jsonify({'message': 'User not logged in'}), 401
+        answer = str(data.get('answer'))
+        questions = str(data.get('questions'))
+        history = []
+        history.append({"role": "assistant", "content":questions})
+        history.append({"role": "user", "content":answer})
         
-        feedback = generate_feedback(history, answer, company_name, position_name)
+        feedback = generate_feedback(history)
         return jsonify({'feedback': feedback}), 200
 
     return main_blueprint
