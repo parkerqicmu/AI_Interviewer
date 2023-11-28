@@ -24,6 +24,12 @@ const AI_conversation = ({ gptResponse }) => {
   }
   */
 
+
+  //example of default messages from bot
+  useEffect(() => {
+    setMessages([{ user: 'bot', text: 'The tailored questions are being generated for you. Please wait.' }]);
+  }, []);
+
   useEffect(() => {
     // reply from ai
     if (messages.length > 0 && messages[messages.length - 1].user === 'user') {
@@ -53,6 +59,7 @@ const AI_conversation = ({ gptResponse }) => {
       </div>
       <div className="chat-input">
         <textarea
+          className='chat-input-textarea'
           ref={inputRef}
           type="text"
           placeholder="Type your answer here"
@@ -65,5 +72,8 @@ const AI_conversation = ({ gptResponse }) => {
     </div>
   );
 };
+
+
+
 
 export default AI_conversation;
