@@ -4,6 +4,7 @@ import PracticeForm from '../component/PracticeForm';
 import './New_practice.css';
 import { useNavigate } from "react-router-dom";
 import AI_conversation from './ai_conversation';
+import { Typography } from 'antd';
 
 const New_practice = () => {
   const [practiceList, setPracticeList] = useState([]); // user practice list
@@ -62,12 +63,22 @@ const New_practice = () => {
     });
   };
 
+  const { Text, Link } = Typography;
+  const backPractice = () => {
+    handleFormChange({
+      ...practiceList[currentPracticeIndex],
+      step: "form",
+  });
+  };
+
   const currentStep = () => {
       if (currentPracticeIndex < 0) {
           return "form";
       }
       return practiceList[currentPracticeIndex]?.step;
   };
+
+  const [backStep, setCurrentStep] = useState('form');
 
   const currentName = () => {
       if (currentPracticeIndex < 0) {
@@ -93,7 +104,14 @@ const New_practice = () => {
         </div>
         <div className="right-column">
             
-            <div className="form-title">{currentName()}</div>
+        <div className="form-title">
+          <div className="back">
+            {currentStep() === "chat" && (
+              <Link href="#" onClick={(e) => {e.preventDefault(); backPractice();}}>Back</Link>
+            )}
+          </div>
+          {currentName()}
+        </div>
             {
                 // form or chat component
                 currentStep() === "chat" ? (
