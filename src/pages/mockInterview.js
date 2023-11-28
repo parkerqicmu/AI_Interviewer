@@ -113,9 +113,10 @@ export function MockInterview() {
       <DefaultContent />
       {currentExercise && (
           <div>
-            <h2>Job Imformation</h2>
+            <h2>Job Information</h2>
             <h3>Company Name</h3>
             <textarea
+              style={{resize:"none"}}            
               ref={inputRef}
               value={CompanyNameInputValue}
               onChange={(e) => setCNInputValue(e.target.value)}
@@ -127,9 +128,11 @@ export function MockInterview() {
               value={CompanyDescriptionInputValue}
               onChange={(e) => setCDInputValue(e.target.value)}
               placeholder="Type in here"
+              style={{resize:"none"}}
             />
             <h3>Position Name</h3>
             <textarea
+              style={{resize:"none"}}
               ref={inputRef}
               value={PositionNameInputValue}
               onChange={(e) => setPNInputValue(e.target.value)}
@@ -137,6 +140,7 @@ export function MockInterview() {
             />
             <h3>Position Responsibility</h3>
             <textarea
+              style={{resize:"none"}}
               ref={inputRef}
               value={PositionRequirementInputValue}
               onChange={(e) => setPReqInputValue(e.target.value)}
@@ -144,6 +148,7 @@ export function MockInterview() {
             />
             <h3>Position Requirement</h3>
             <textarea
+              style={{resize:"none"}}
               ref={inputRef}
               value={PositionResponsibilityInputValue}
               onChange={(e) => setPResInputValue(e.target.value)}

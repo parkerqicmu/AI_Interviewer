@@ -76,9 +76,15 @@ const AI_conversation = ({ gptResponse }) => {
     }
   };
 
+  const el = document.getElementById('chat-messages');
+    // id of the chat container ---------- ^^^
+    if (el) {
+      el.scrollTop = el.scrollHeight;
+  };
+
   return (
     <div className="chat-bot-container">
-      <div className="chat-messages">
+      <div id="chat-messages">
         {messages.map((message, index) => (
           <div key={index} className={`message ${message.user}`}>
             {message.text}
@@ -87,6 +93,7 @@ const AI_conversation = ({ gptResponse }) => {
       </div>
       <div className="chat-input">
         <textarea
+          style={{resize:"none"}}
           className='chat-input-textarea'
           ref={inputRef}
           type="text"
