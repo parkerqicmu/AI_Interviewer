@@ -65,7 +65,7 @@ const PracticeForm = ({ onChange, formData, onMockInterviewClick }) => {
         <div className="input-form">
             {/* Job information */}
             <div className="input-form-subsection">
-                <div className="input-form-title">Job Imformation</div>
+                <div className="input-form-title">Job Information</div>
                 <div className="input-form-description">
                     We recommend that you fill in a detailed description of your
                     target position, and interview questions will be tailored
@@ -89,6 +89,7 @@ const PracticeForm = ({ onChange, formData, onMockInterviewClick }) => {
                         Company Description
                     </div>
                     <TextArea
+                        style={{resize:"none"}}
                         rows={4}
                         value={formData.companyDescription}
                         autoSize={false}
@@ -113,6 +114,7 @@ const PracticeForm = ({ onChange, formData, onMockInterviewClick }) => {
                         Position Responsibilities
                     </div>
                     <TextArea
+                        style={{resize:"none"}}
                         rows={4}
                         value={formData.positionResponsibilities}
                         autoSize={false}
@@ -130,6 +132,7 @@ const PracticeForm = ({ onChange, formData, onMockInterviewClick }) => {
                         Position Requirements
                     </div>
                     <TextArea
+                        style={{resize:"none"}}
                         rows={4}
                         value={formData.positionRequirements}
                         autoSize={false}
@@ -219,8 +222,7 @@ const PracticeForm = ({ onChange, formData, onMockInterviewClick }) => {
                     className="form-mock-interview-button"
                     type="primary"
                     // shape="round"
-                    onClick={onMockInterviewClick}
-                >
+                    onClick={onMockInterviewClick}>
                     Mock Interview
                 </Button>
             </div>
