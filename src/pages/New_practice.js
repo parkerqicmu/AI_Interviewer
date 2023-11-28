@@ -7,8 +7,12 @@ import AI_conversation from './ai_conversation';
 import { Typography } from 'antd';
 
 const New_practice = () => {
+
+  const navigate = useNavigate();
+
   const [practiceList, setPracticeList] = useState([]); // user practice list
   const [currentPracticeIndex, setCurrentPracticeIndex] = useState(-1); //define the current practice index
+  const [gptResponse, setGptResponse] = useState('');
 
   // update form data
   const handleFormChange = (newFormData) => {
@@ -53,6 +57,31 @@ const New_practice = () => {
     // =================================
     //[placehoder] send form data to backend api, may need process
     const formData = practiceList[currentPracticeIndex];
+    try {
+      const backendResponse = await fetch('http://localhost:8000/job_description', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            job_title: formData.positionName,
+            company_name: formData.companyName,
+            company_description: formData.companyDescription,
+            position_name: formData.positionName,
+            position_responsibility: formData.positionResposibility,
+            position_requirements: formData.positionRequirements
+          }),
+      });
+
+      if (!backendResponse.ok) {
+        navigate('/');
+        throw new Error('Failed to send data to backend');  
+      }
+      const backendData = await backendResponse.text();
+      console.log('Response from backend:', backendData);
+    } catch (error) {
+        console.error('Error:', error);
+    }
 
     // =================================
 
@@ -61,6 +90,32 @@ const New_practice = () => {
         ...practiceList[currentPracticeIndex],
         step: "chat",
     });
+
+    try {
+      const backendResponse = await fetch('http://localhost:8000/get_questions', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            job_title: formData.positionName,
+            company_name: formData.companyName,
+            company_description: formData.companyDescription,
+            position_name: formData.positionName,
+            position_responsibility: formData.positionResposibility,
+            position_requirements: formData.positionRequirements,
+            number_of_questions: formData.questionNumbers,
+            user_experience: formData.yourExperience,
+            question_type: formData.questionType,
+            difficulty: formData.questionDifficulty
+          }),
+      });
+      const backendData = await backendResponse.text();
+      console.log('Response from backend:', backendData);
+      setGptResponse(backendData);  
+    } catch (error) {
+        console.error('Error:', error);
+    }
   };
 
   const { Text, Link } = Typography;
@@ -115,7 +170,7 @@ const New_practice = () => {
             {
                 // form or chat component
                 currentStep() === "chat" ? (
-                    <AI_conversation />
+                  <AI_conversation gptResponse={gptResponse} />
                 ) : (
                     <PracticeForm
                         formData={
